@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黄庭经春季养生专题 - 顺木升发，固黄庭之本</title>
+    <style>
+        /* ========== CSS Reset & Base ========== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --c-primary: #4a6741;
+            --c-primary-light: #6b8f5e;
+            --c-primary-dark: #2d4a28;
+            --c-accent: #c9a227;
+            --c-accent-light: #e8c84a;
+            --c-bg: #fafaf6;
+            --c-bg-warm: #f5f2ec;
+            --c-bg-card: #ffffff;
+            --c-text: #2c2c2c;
+            --c-text-secondary: #5a5a5a;
+            --c-text-light: #8a8a8a;
+            --c-border: #e8e4dc;
+            --c-shadow: rgba(0, 0, 0, 0.06);
+            --c-shadow-md: rgba(0, 0, 0, 0.1);
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --max-width: 860px;
+            --font-body: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', Georgia, 'Times New Roman', serif;
+            --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--c-bg);
+            color: var(--c-text);
+            line-height: 1.9;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ========== Typography ========== */
+        h1, h2, h3, h4 { font-family: var(--font-body); font-weight: 700; line-height: 1.4; }
+
+        h1 {
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            color: var(--c-primary-dark);
+            letter-spacing: 0.02em;
+        }
+
+        h2 {
+            font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+            color: var(--c-primary);
+            margin-top: 3em;
+            margin-bottom: 1.2em;
+            padding-bottom: 0.5em;
+            border-bottom: 2px solid var(--c-primary-light);
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--c-accent);
+        }
+
+        h3 {
+            font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+            color: var(--c-primary-dark);
+            margin-top: 2em;
+            margin-bottom: 0.8em;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--c-primary);
+            margin-top: 1.5em;
+            margin-bottom: 0.6em;
+        }
+
+        p { margin-bottom: 1em; }
+
+        strong { color: var(--c-primary-dark); font-weight: 700; }
+
+        a { color: var(--c-primary); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+        a:hover { border-bottom-color: var(--c-primary); }
+
+        blockquote {
+            background: linear-gradient(135deg, rgba(74, 103, 65, 0.06), rgba(74, 103, 65, 0.02));
+            border-left: 4px solid var(--c-primary-light);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            padding: 1.2em 1.5em;
+            margin: 1.5em 0;
+            font-style: italic;
+            color: var(--c-text-secondary);
+        }
+
+        blockquote strong { font-style: normal; color: var(--c-primary); }
+
+        ul, ol { padding-left: 1.5em; margin-bottom: 1em; }
+        li { margin-bottom: 0.5em; }
+
+        /* ========== Layout ========== */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 1.5em;
+        }
+
+        /* ========== Header ========== */
+        .hero {
+            position: relative;
+            padding: 5em 0 4em;
+            text-align: center;
+            background: linear-gradient(170deg, #e8f0e4 0%, var(--c-bg) 40%, var(--c-bg-warm) 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            left: -20%;
+            width: 140%;
+            height: 100%;
+            background: radial-gradient(ellipse, rgba(201, 162, 39, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.35em 1.2em;
+            background: var(--c-primary);
+            color: #fff;
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border-radius: 999px;
+            margin-bottom: 1.5em;
+        }
+
+        .hero h1 {
+            margin-bottom: 0.5em;
+            position: relative;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: var(--c-text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .hero-divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--c-primary), var(--c-accent));
+            border: none;
+            margin: 2em auto 0;
+            border-radius: 2px;
+        }
+
+        /* ========== Content ========== */
+        .content { padding: 2em 0 6em; }
+
+        .section { margin-bottom: 1em; }
+
+        /* ========== Cards ========== */
+        .card {
+            background: var(--c-bg-card);
+            border: 1px solid var(--c-border);
+            border-radius: var(--radius-md);
+            padding: 2em;
+            margin: 2em 0;
+            box-shadow: 0 2px 8px var(--c-shadow);
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 6px 20px var(--c-shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .card-accent {
+            border-left: 4px solid var(--c-primary);
+        }
+
+        .card-gold {
+            border-left: 4px solid var(--c-accent);
+        }
+
+        .card h3, .card h4 { margin-top: 0; }
+
+        /* ========== Quote Blocks ========== */
+        .verse-block {
+            background: linear-gradient(135deg, #f0ebe0, #f7f4ef);
+            border: 1px solid #e2daca;
+            border-radius: var(--radius-md);
+            padding: 1.5em 2em;
+            margin: 1.5em 0;
+            position: relative;
+        }
+
+        .verse-block::before {
+            content: '\201C';
+            position: absolute;
+            top: -8px;
+            left: 16px;
+            font-size: 3rem;
+            color: var(--c-accent);
+            line-height: 1;
+            font-family: Georgia, serif;
+        }
+
+        .verse-block p {
+            padding-left: 1.2em;
+            font-style: italic;
+            margin-bottom: 0.5em;
+        }
+
+        .verse-block .verse-source {
+            font-style: normal;
+            font-size: 0.9em;
+            color: var(--c-text-light);
+            padding-left: 1.2em;
+        }
+
+        .verse-block strong { font-style: normal; }
+
+        /* ========== Red Line / Warning ========== */
+        .redline {
+            background: linear-gradient(135deg, #fef3f0, #fff8f5);
+            border: 1px solid #f5d5cc;
+            border-left: 4px solid #d94f3d;
+            border-radius: var(--radius-sm);
+            padding: 1.2em 1.5em;
+            margin: 1.5em 0;
+            font-size: 0.95em;
+        }
+
+        .redline-title {
+            color: #c0392b;
+            font-weight: 700;
+            margin-bottom: 0.5em;
+            display: flex;
+            align-items: center;
+            gap: 0.4em;
+        }
+
+        /* ========== Practice Block ========== */
+        .practice {
+            background: linear-gradient(135deg, rgba(74, 103, 65, 0.05), rgba(201, 162, 39, 0.03));
+            border: 1px dashed var(--c-primary-light);
+            border-radius: var(--radius-md);
+            padding: 1.5em 2em;
+            margin: 1.5em 0;
+        }
+
+        .practice-title {
+            font-weight: 700;
+            color: var(--c-primary);
+            margin-bottom: 0.6em;
+            font-size: 1.05em;
+        }
+
+        .practice ol { padding-left: 1.3em; }
+        .practice li { margin-bottom: 0.6em; }
+
+        /* ========== Month Plan ========== */
+        .month-plan {
+            position: relative;
+            padding-left: 3em;
+            margin: 2em 0;
+        }
+
+        .month-plan::before {
+            content: '';
+            position: absolute;
+            left: 0.9em;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--c-primary), var(--c-accent), var(--c-primary-light));
+        }
+
+        .month-item {
+            position: relative;
+            margin-bottom: 3em;
+        }
+
+        .month-item::before {
+            content: '';
+            position: absolute;
+            left: -2.4em;
+            top: 0.5em;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--c-primary);
+            border: 3px solid var(--c-bg);
+            box-shadow: 0 0 0 2px var(--c-primary-light);
+        }
+
+        .month-header {
+            display: flex;
+            align-items: baseline;
+            gap: 0.8em;
+            margin-bottom: 0.8em;
+            flex-wrap: wrap;
+        }
+
+        .month-tag {
+            display: inline-block;
+            padding: 0.2em 0.8em;
+            border-radius: 999px;
+            font-family: var(--font-ui);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .month-tag.m4 { background: #e8f0e4; color: var(--c-primary-dark); }
+        .month-tag.m5 { background: #fef3e2; color: #9a6b1a; }
+        .month-tag.m6 { background: #fde8e8; color: #b34040; }
+
+        .month-target {
+            font-family: var(--font-ui);
+            font-size: 0.82rem;
+            color: var(--c-text-light);
+            margin-bottom: 1em;
+        }
+
+        /* ========== Five Verses ========== */
+        .verse-card {
+            background: var(--c-bg-card);
+            border: 1px solid var(--c-border);
+            border-radius: var(--radius-md);
+            padding: 1.8em;
+            margin: 1.5em 0;
+            box-shadow: 0 1px 4px var(--c-shadow);
+            transition: box-shadow 0.3s;
+        }
+
+        .verse-card:hover { box-shadow: 0 4px 12px var(--c-shadow-md); }
+
+        .verse-number {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            background: var(--c-primary);
+            color: #fff;
+            border-radius: 50%;
+            font-family: var(--font-ui);
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-right: 0.6em;
+            vertical-align: middle;
+        }
+
+        .verse-text {
+            background: #f9f7f2;
+            border-radius: var(--radius-sm);
+            padding: 1em 1.3em;
+            margin: 1em 0;
+            font-style: italic;
+            color: var(--c-primary-dark);
+            line-height: 2;
+        }
+
+        .verse-interpret {
+            color: var(--c-text-secondary);
+            font-size: 0.95em;
+            padding-left: 0.5em;
+            border-left: 2px solid var(--c-border);
+        }
+
+        /* ========== Footer ========== */
+        footer {
+            background: var(--c-primary-dark);
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 3em 1.5em;
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+
+        footer a { color: var(--c-accent-light); border-bottom-color: transparent; }
+        footer a:hover { border-bottom-color: var(--c-accent-light); }
+
+        .footer-divider {
+            width: 40px;
+            height: 2px;
+            background: var(--c-accent);
+            margin: 1.5em auto;
+            border: none;
+            border-radius: 1px;
+        }
+
+        /* ========== Navigation ========== */
+        .toc-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250, 250, 246, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--c-border);
+            padding: 0.6em 0;
+            font-family: var(--font-ui);
+            font-size: 0.82rem;
+        }
+
+        .toc-inner {
+            display: flex;
+            gap: 0.3em;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 0 1.5em;
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        .toc-inner::-webkit-scrollbar { display: none; }
+
+        .toc-link {
+            flex-shrink: 0;
+            padding: 0.4em 0.9em;
+            border-radius: 999px;
+            color: var(--c-text-secondary);
+            text-decoration: none;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .toc-link:hover {
+            background: var(--c-primary);
+            color: #fff;
+            border-color: var(--c-primary);
+        }
+
+        /* ========== Responsive ========== */
+        @media (max-width: 640px) {
+            .hero { padding: 3em 0 2.5em; }
+            .card { padding: 1.4em; }
+            .content { padding: 1.5em 0 4em; }
+            .month-plan { padding-left: 2.2em; }
+            .month-item::before { left: -1.6em; width: 12px; height: 12px; }
+            .month-header { flex-direction: column; gap: 0.3em; }
+        }
+
+        /* ========== Print ========== */
+        @media print {
+            .toc-bar { display: none; }
+            .hero { background: none; padding: 2em 0; }
+            .card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+            body { font-size: 12pt; }
+        }
+
+        /* ========== Animations ========== */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content > * {
+            animation: fadeUp 0.5s ease both;
+        }
+
+        .content > *:nth-child(1) { animation-delay: 0s; }
+        .content > *:nth-child(2) { animation-delay: 0.05s; }
+        .content > *:nth-child(3) { animation-delay: 0.1s; }
+        .content > *:nth-child(4) { animation-delay: 0.15s; }
+        .content > *:nth-child(5) { animation-delay: 0.2s; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .content > * { animation: none; }
+            html { scroll-behavior: auto; }
+        }
+
+        /* ========== Progress Bar ========== */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--c-primary), var(--c-accent));
+            z-index: 200;
+            width: 0%;
+            transition: width 0.15s;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="reading-progress" id="progressBar"></div>
+
+<!-- Navigation -->
+<nav class="toc-bar">
+    <div class="toc-inner">
+        <a class="toc-link" href="#anchor">专题锚点</a>
+        <a class="toc-link" href="#principles">底层法理</a>
+        <a class="toc-link" href="#essentials">五大要诀</a>
+        <a class="toc-link" href="#plan">分月计划</a>
+        <a class="toc-link" href="#redlines">禁忌红线</a>
+        <a class="toc-link" href="#verses">经典金句</a>
+    </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+    <div class="container">
+        <span class="hero-badge">春季养生专题</span>
+        <h1>顺木升发，固黄庭之本<br>养终身跑步之基</h1>
+        <p class="subtitle">以《黄庭经》身神同构、五行圆融之理，融合47岁精英跑者二季度训练目标，构筑春生夏长、无伤常跑的养生根基。</p>
+        <hr class="hero-divider">
+    </div>
+</header>
+
+<!-- Content -->
+<main class="content">
+    <div class="container">
+
+        <!-- 专题核心锚点 -->
+        <section id="anchor" class="section">
+            <h2>专题核心锚点</h2>
+            <p>《黄庭经》作为道教上清派核心经典，以<strong>「身神同构、五脏守一、天人相应」</strong>为核心法理，其春季养生的核心逻辑，绝非泛泛的「疏肝养肝」，而是<strong>以黄庭中宫（脾胃）为根基，以肾水为先天本源，顺肝木少阳升发之气，实现「水生木、木不克土、木不刑金」的五行圆融平衡</strong>。</p>
+
+            <p>对于47岁、10年跑龄的Masters精英跑者而言，这套养生体系恰好与二季度「韧性积累与容量扩容」的训练目标完美契合：肝主筋，春季养肝可强化结缔组织韧性，对应路面多样性训练的抗损伤需求；脾主肌肉、黄庭为气血生化之源，固黄庭可提升有氧代谢容量，对应长距离训练的耐力需求；肾主骨、为先天之本，固精培元可匹配中年跑者48-72小时的恢复周期，守住<strong>「无伤终身跑」</strong>的核心红线。</p>
+        </section>
+
+        <!-- 一、底层法理 -->
+        <section id="principles" class="section">
+            <h2>一、《黄庭经》春季养生的底层法理</h2>
+
+            <h3>1. 天人同构：春气通于肝，少阳当令</h3>
+            <div class="verse-block">
+                <p><strong>肝气郁勃清且长，罗列六府生三光。</strong></p>
+                <p class="verse-source">《黄庭内景经 · 肝气章》</p>
+            </div>
+            <p>春季在五行属木，方位属东，与人体肝脏相应，春气通于肝，此时天地阳气从蛰伏转向升发，人体肝气也迎来一年中最旺盛的时节，是调养肝经、重塑筋膜韧性的黄金窗口期。</p>
+            <p>《黄庭经》将肝神喻为「青童神公子」：</p>
+            <div class="verse-block">
+                <p><strong>肝部之宫翠重里，下有青童神公子，主诸关镜聪明始，和制魂魄津液平，外应眼目日月精。</strong></p>
+                <p class="verse-source">《黄庭经 · 肝部章》</p>
+            </div>
+            <p>肝的核心作用有三：</p>
+            <ul>
+                <li><strong>主疏泄</strong>：调畅全身气血，对应跑步中气血的持久输送能力；</li>
+                <li><strong>主宗筋</strong>：肝主筋脉，全身关节、筋膜、韧带的柔韧度皆由肝气滋养，对应10年跑龄的关节抗损伤需求；</li>
+                <li><strong>主藏魂</strong>：安定情志、调节睡眠，对应中年跑者训练后的情绪稳定与恢复质量。</li>
+            </ul>
+
+            <h3>2. 核心准则：黄庭为根，升发有度</h3>
+            <p>《黄庭经》的核心是「黄庭」——即中宫脾胃：</p>
+            <div class="verse-block">
+                <p><strong>脾部之宫属戊己，中有明童黄裳里，消谷散气摄牙齿，主调百谷五味香，辟却虚羸无病伤。</strong></p>
+                <p class="verse-source">《黄庭经 · 脾部章》</p>
+            </div>
+            <div class="verse-block">
+                <p><strong>脾长一尺掩太仓，长精益命赖君王。</strong></p>
+                <p class="verse-source">《黄庭经 · 脾长章》</p>
+            </div>
+            <p>春季肝木旺，最易出现「木旺克土」的问题：肝气升发过度，会克制脾胃运化功能，导致气血生化无源，跑步中出现耐力不足、疲劳难恢复、肌肉流失的问题。因此《黄庭经》春季养生的第一准则，是<strong>疏肝必先健脾，升发必固黄庭</strong>，让肝木的升发有脾胃气血的支撑，而非无根的虚火浮越。</p>
+
+            <h3>3. 五行圆融：三脏同调，补泻有节</h3>
+            <p>《黄庭经》春季养生并非只调肝，而是形成「肾-肝-脾-肺」的完整闭环：</p>
+            <div class="card card-accent">
+                <h4>水生木</h4>
+                <p>肾为肝之母，《肾部章》言肾为「两部水王对生门」，春季肝木升发，必须以肾水为根基，否则会出现肝阳上亢、筋膜失养，对应中年跑者熬夜、过度训练后的膝盖酸软、筋腱僵硬。</p>
+            </div>
+            <div class="card card-gold">
+                <h4>木不刑金</h4>
+                <p>肝木过旺易反侮肺金，春季北方多风、花粉多，长期清晨户外跑步，最易出现呼吸道敏感、咳嗽气短，需在疏肝的同时敛护肺气，形成「肝升肺降」的气机循环。</p>
+            </div>
+            <div class="card card-accent">
+                <h4>土培木</h4>
+                <p>脾胃为气血之本，只有黄庭中土健运，肝木的升发才有持续的能量供给，对应长距离训练的耐力储备与赛后恢复。</p>
+            </div>
+        </section>
+
+        <!-- 二、五大核心要诀 -->
+        <section id="essentials" class="section">
+            <h2>二、《黄庭经》春季养生五大核心要诀</h2>
+            <p style="color:var(--c-text-light); font-style:italic;">中年跑者专属版</p>
+
+            <!-- 要诀一 -->
+            <div class="card">
+                <h3>要诀一：顺天时，应升发，起居合于春气</h3>
+                <p>《黄帝内经》言「春三月，夜卧早起，广步于庭」，这与《黄庭经》「天人同构」的理念完全契合。</p>
+                <h4>起居准则</h4>
+                <ul>
+                    <li><strong>晚睡不晚于22:30，早起不晚于6:00</strong>，恰好匹配清晨跑步的作息。晨起跑步正是「顺天应时」，让身体的阳气与天地同步升发。</li>
+                    <li>切忌熬夜（23点后入睡），人卧血归于肝，熬夜最耗肝血、伤筋膜，10年跑龄的关节损伤恢复，全靠夜间肝血的滋养。</li>
+                </ul>
+                <h4>形体准则</h4>
+                <p>《黄庭经》言「被发缓形，以使志生」，春季跑步切忌穿紧身束缚的衣物，优先选择宽松透气的跑步服，让周身经络舒展，肝气条达；日常避免久坐蜷缩，每小时起身展臂旋腰，疏通肝经，避免筋膜粘连。</p>
+
+                <div class="practice">
+                    <p class="practice-title">《黄庭经》晨起唤醒术（跑前5分钟必做）</p>
+                    <ol>
+                        <li><strong>叩齿36次</strong>：《黄庭经》言「齿为肾之余」，叩齿可激发肾水，以水生木，润泽筋膜，同时唤醒全身气机；</li>
+                        <li><strong>十指梳头36次</strong>：从额头梳至后颈，沿胆经抓握，疏通肝俞，让头部气血充盈，避免清晨跑步头晕眼花；</li>
+                        <li><strong>搓热掌心捂双眼</strong>：《肝部章》言肝「外应眼目日月清」，掌心搓热敷眼3次，默诵「青光入目浊气散」，养肝血、明目。</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- 要诀二 -->
+            <div class="card">
+                <h3>要诀二：疏肝木，柔筋脉，强化结缔组织韧性</h3>
+                <p>这一要诀完全匹配二季度「路面多样性强化结缔组织」的训练目标，《黄庭经》认为「肝主筋」，全身筋膜、韧带、关节囊的韧性，皆由肝血滋养，春季养筋，事半功倍。</p>
+
+                <div class="practice">
+                    <p class="practice-title">核心功法：嘘字诀柔筋法</p>
+                    <p>《黄庭经 · 肝气章》的核心导引法，适配跑步全流程：</p>
+                    <ul>
+                        <li><strong>跑前热身</strong>：立定，两手托举至左胁肝位，缓缓吐气发「嘘」字音，重复7次，引少阳肝气升发，放松全身筋膜；</li>
+                        <li><strong>跑中调整</strong>：若出现膝盖发紧、脚踝僵硬，缓步走3步，发1次「嘘」字音，观想翠绿之气充盈筋膜；</li>
+                        <li><strong>跑后放松</strong>：泡沫轴放松时配合「嘘」字诀吐纳，每放松一个部位吐气1次，让肝气渗透筋膜。</li>
+                    </ul>
+                </div>
+
+                <div class="redline">
+                    <p class="redline-title">&#x26A0; 中年跑者柔筋红线</p>
+                    <p>春季切忌暴力拉伸、过度跨步，186cm的身高，下肢杠杆长，过度拉伸易导致筋膜撕裂，需以「缓伸、柔展、吐纳配合」为核心，拉伸时长不超过30秒/组，以酸胀为限，不追求痛感。</p>
+                </div>
+            </div>
+
+            <!-- 要诀三 -->
+            <div class="card">
+                <h3>要诀三：固黄庭，护中土，筑牢气血容量根基</h3>
+                <p>《黄庭经》的核心是黄庭脾胃，这也是二季度「有氧容量扩容」的核心支撑——脾胃是气血生化之源，长距离跑步的耐力、有氧代谢能力，本质是脾胃运化水谷、生成气血的能力。春季肝木旺，最易克脾土，很多跑者春季越跑越累、越跑越瘦，根源就是只练不养。</p>
+
+                <h4>饮食核心准则：省酸增甘，以养脾气</h4>
+                <p>《黄庭经 · 脾部章》言脾「主调百谷五味香」，春季饮食需遵循「少酸多甘」的原则：</p>
+                <ul>
+                    <li><strong>宜食</strong>：山药、小米、南瓜、红枣、蜂蜜、春笋、春韭、香椿等应季甘温、健脾疏肝的食材，跑后优先补充小米粥、山药糊等易消化的甘味食物；</li>
+                    <li><strong>忌食</strong>：生冷冰饮、过量酸味食物（醋、柠檬、青梅）、油腻肥甘，这些都会损伤脾阳，遏止肝气升发。</li>
+                </ul>
+
+                <div class="practice">
+                    <p class="practice-title">健脾护黄庭功法（跑后必做）</p>
+                    <p>跑后1小时，静坐，掌心搓热，以肚脐为中心，顺时针揉腹36圈，默诵「脾神灵元，混康永安」，激活脾神，促进水谷运化。同时配合「叩齿漱咽」：叩齿36次，将口中津液分3小口缓缓咽下，送入黄庭中宫，《黄庭经》称津液为「金醴玉英」，能灌溉五脏、健运脾胃。</p>
+                </div>
+            </div>
+
+            <!-- 要诀四 -->
+            <div class="card">
+                <h3>要诀四：敛肺金，平水火，守护呼吸道屏障</h3>
+                <p>春季肝木升发，易出现「木火刑金」的问题，加上长期清晨户外跑步，北方春季多风、花粉、沙尘，最易出现呼吸道敏感。</p>
+                <h4>跑步专属呼吸法：三步一呼，三步一吸</h4>
+                <p>《黄庭经》言「口为玉池太和宫，漱咽灵液灾不干」，跑步中全程用鼻吸鼻呼，三步一吸、三步一呼，吸气时观想白气入肺，呼气时观想浊气从胁下肝经排出，既能稳定呼吸节奏，又能疏肝敛肺。</p>
+
+                <div class="practice">
+                    <p class="practice-title">春季呼吸道防护功法</p>
+                    <ol>
+                        <li><strong>跑前</strong>：搓热大鱼际，揉搓迎香穴36次，激活鼻腔防御，避免冷空气、花粉直接刺激呼吸道；</li>
+                        <li><strong>跑后</strong>：静坐，发「呬」字诀6次，敛护肺气，平复呼吸，缓解呼吸道的冷空气刺激；</li>
+                        <li><strong>日常</strong>：每日晨起用淡盐水漱口，护咽喉、敛肺气，避免春季花粉过敏。</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- 要诀五 -->
+            <div class="card">
+                <h3>要诀五：固精元，不妄泄，守住中年恢复之本</h3>
+                <p>《黄庭经》核心养生逻辑是「固精养气」，对于47岁的中年跑者而言，肾精是身体的根本。春季升发过度，最易耗散肾精，出现训练后疲劳难消、膝盖酸软、睾酮下降、静息心率升高的问题。</p>
+                <h4>核心准则：升发有度，闭精守一</h4>
+                <p>《黄庭经 · 脾长章》言「闭塞三关握固停，含漱金醴吞玉英」，春季养生不能一味升发，要做到「升中有收」，核心就是<strong>严格遵守48-72小时恢复原则</strong>，长距离、高强度训练后，必须给身体足够的恢复时间。</p>
+
+                <div class="practice">
+                    <p class="practice-title">固精培元功法（睡前必做）</p>
+                    <ol>
+                        <li>仰卧，双腿伸直，双掌掩耳，指根贴后颈，闭气7次，存想鼻端白气如豆，渐扩至全身，沉入脐下丹田；</li>
+                        <li>搓热双手，掌心捂于后腰肾区，默诵「肾神玄冥，育我长生」，温补肾阳，缓解跑步后的腰膝酸软；</li>
+                        <li>每日晨起监测静息心率，若晨脉超过60bpm（基础静息心率+8bpm），说明身体过度疲劳，当天必须休息。</li>
+                    </ol>
+                </div>
+
+                <div class="redline">
+                    <p class="redline-title">&#x26A0; 中年跑者固精红线</p>
+                    <p>春季切忌大汗淋漓、过度冲刺，《黄庭经》言「汗为心之液，亦为肾之精」，过度出汗会耗散肾精；同时切忌熬夜、房劳过度，这些都会直接透支肾精，导致训练状态断崖式下滑。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 三、分月养生计划 -->
+        <section id="plan" class="section">
+            <h2>三、二季度分月养生落地计划</h2>
+            <p style="color:var(--c-text-light); font-style:italic; margin-bottom:2em;">与跑步训练完全融合</p>
+
+            <div class="month-plan">
+                <!-- 4月 -->
+                <div class="month-item">
+                    <div class="month-header">
+                        <h3>4月：孟春 &middot; 阳气初升</h3>
+                        <span class="month-tag m4">有氧扩容月 &middot; 筑基固本</span>
+                    </div>
+                    <p class="month-target">对应训练目标：160KM跑量，25KM长距离有氧扩容，越野跑/土路跑强化脚踝稳定性</p>
+                    <p><strong>养生核心</strong>：顺阳气初升，健脾疏肝，为全季度筑牢黄庭气血根基。</p>
+                    <ol>
+                        <li><strong>起居养生</strong>：固定5:30起床，22:00入睡，晨起先做5分钟《黄庭经》唤醒术，再出门跑步；越野跑前一晚保证8小时睡眠，睡前做固精培元功法。</li>
+                        <li><strong>功法训练</strong>：每次跑前必做嘘字诀导引，跑后必做揉腹健脾功法；每周1次越野跑后增加10分钟脚踝旋绕、太冲穴按揉。</li>
+                        <li><strong>饮食调养</strong>：本月重点健脾，多吃山药、小米、春笋、春韭，跑后优先喝小米粥+少量红枣。</li>
+                        <li><strong>生活与分享</strong>：社区捡跑时配合「广步于庭」的春生理念，放慢脚步，一边捡跑一边感受春日生机，契合「形神共养」。</li>
+                    </ol>
+                </div>
+
+                <!-- 5月 -->
+                <div class="month-item">
+                    <div class="month-header">
+                        <h3>5月：仲春 &middot; 阳气盛壮</h3>
+                        <span class="month-tag m5">节奏引入月 &middot; 疏肝养筋</span>
+                    </div>
+                    <p class="month-target">对应训练目标：168KM跑量，每周1次M配速节奏跑，打磨心率临界点可控感</p>
+                    <p><strong>养生核心</strong>：条畅肝气，柔养筋膜，固护脾肾，避免节奏跑导致的肝阳上亢、筋膜劳损。</p>
+                    <ol>
+                        <li><strong>起居养生</strong>：依旧保持5:30起床，22:30前入睡，节奏跑前一晚切忌熬夜、情绪波动，怒伤肝。</li>
+                        <li><strong>功法训练</strong>：节奏跑前增加嘘字诀导引至14次，跑中严格遵循三步一呼三步一吸，跑后增加泡沫轴放松+嘘字诀吐纳。</li>
+                        <li><strong>饮食调养</strong>：本月重点疏肝柔筋，增加枸杞、菠菜、荠菜等养肝血食材；节奏跑后补充支链氨基酸+锌，保护睾酮水平。</li>
+                        <li><strong>生活与分享</strong>：家庭乐跑以「慢走慢跑、舒展筋骨」为核心，契合《黄庭经》「生而勿杀，予而勿夺」的春生理念。</li>
+                    </ol>
+                </div>
+
+                <!-- 6月 -->
+                <div class="month-item">
+                    <div class="month-header">
+                        <h3>6月：季春 &middot; 阳气浮越</h3>
+                        <span class="month-tag m6">耐热适配月 &middot; 敛阳固精</span>
+                    </div>
+                    <p class="month-target">对应训练目标：165KM跑量，清晨5点起跑耐热训练，行进间补水技巧练习</p>
+                    <p><strong>养生核心</strong>：敛阳护阴，固精培元，健脾润肺，避免高温训练耗散气阴。</p>
+                    <ol>
+                        <li><strong>起居养生</strong>：提前至5:00起床，赶在气温升高前完成跑步；切忌午时（11:00-13:00）高温时段跑步。</li>
+                        <li><strong>功法训练</strong>：跑前增加迎香穴揉搓、呬字诀敛肺功法，跑中练习行进间补水配合漱咽津液；跑后切忌立刻冲冷水澡。</li>
+                        <li><strong>饮食调养</strong>：本月重点敛阳护阴，多吃百合、莲子、冬瓜、银耳等甘润食材，长距离后补充淡盐水+少量蜂蜜。切忌冰饮、冰啤酒。</li>
+                        <li><strong>生活与分享</strong>：年中复盘跑鞋磨损时，结合「肝主筋、脾主肉、肾主骨」理念判断落地姿势；直播分享时融入「跑步是修行，不是比拼」的核心理念。</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- 四、禁忌红线 -->
+        <section id="redlines" class="section">
+            <h2>四、《黄庭经》春季养生禁忌红线</h2>
+            <p style="color:var(--c-text-light); font-style:italic; margin-bottom:1.5em;">中年跑者必守</p>
+
+            <div class="redline" style="margin-bottom:1.2em;">
+                <p class="redline-title">&#x274C; 一、忌逆春气，遏止升发</p>
+                <p>切忌赖床不起、久坐不动、长期待在密闭室内，会遏止肝气升发，导致筋膜僵硬、情绪郁结、训练状态下滑。</p>
+            </div>
+            <div class="redline" style="margin-bottom:1.2em;">
+                <p class="redline-title">&#x274C; 二、忌大汗淋漓，耗散精气</p>
+                <p>春季养生「宜微汗，忌大汗」，切忌每次跑步都跑到力竭、浑身湿透，大汗耗精、伤血、损肾，中年跑者春季过度出汗会直接导致恢复周期拉长、损伤风险升高。</p>
+            </div>
+            <div class="redline" style="margin-bottom:1.2em;">
+                <p class="redline-title">&#x274C; 三、忌暴怒郁结，伤肝损魂</p>
+                <p>肝主情志，暴怒、抑郁、焦虑最伤肝气，会直接导致筋膜紧张、跑步中动作变形、心率失控，甚至出现崴脚、拉伤。</p>
+            </div>
+            <div class="redline" style="margin-bottom:1.2em;">
+                <p class="redline-title">&#x274C; 四、忌熬夜房劳，透支肾精</p>
+                <p>熬夜、房劳过度最耗肾精，肾精是中年跑者的恢复之本，春季肾精耗散会直接导致静息心率升高、训练后疲劳难消、膝盖酸软、睾酮下降。</p>
+            </div>
+            <div class="redline">
+                <p class="redline-title">&#x274C; 五、忌生冷酸寒，损伤脾阳</p>
+                <p>春季切忌喝冰饮、吃生冷食物、过量吃酸味食物，会损伤脾阳、遏止肝气升发，导致气血生化无源，跑步中耐力不足、腹胀岔气。</p>
+            </div>
+        </section>
+
+        <!-- 五、核心金句 -->
+        <section id="verses" class="section">
+            <h2>五、《黄庭经》春季养生核心金句与解读</h2>
+
+            <div class="verse-card">
+                <p><span class="verse-number">1</span><strong>肝部之宫翠重里，下有青童神公子，主诸关镜聪明始，和制魂魄津液平，外应眼目日月精。</strong></p>
+                <div class="verse-text">肝部之宫翠重里，下有青童神公子，主诸关镜聪明始，和制魂魄津液平，外应眼目日月精。</div>
+                <p class="verse-interpret"><strong>解读：</strong>这是春季养肝的核心经文，肝是身体的将军之官，主管筋膜柔韧、眼目清明、情志安定，春季养肝气，就是养跑步的核心根基——筋膜的韧性、身体的感知力、情绪的稳定性。</p>
+            </div>
+
+            <div class="verse-card">
+                <p><span class="verse-number">2</span><strong>脾部之宫属戊己，中有明童黄裳里，消谷散气摄牙齿，主调百谷五味香，辟却虚羸无病伤。</strong></p>
+                <div class="verse-text">脾部之宫属戊己，中有明童黄裳里，消谷散气摄牙齿，主调百谷五味香，辟却虚羸无病伤。</div>
+                <p class="verse-interpret"><strong>解读：</strong>这是《黄庭经》的核心，脾胃是气血生化之源，是跑步耐力的根本，春季养肝必先健脾，只有黄庭中土健运，肝木的升发才有根基，跑步才有持续的气血供给。</p>
+            </div>
+
+            <div class="verse-card">
+                <p><span class="verse-number">3</span><strong>肝气郁勃清且长，罗列六府生三光，心精意专内不倾，上合三焦下玉浆。</strong></p>
+                <div class="verse-text">肝气郁勃清且长，罗列六府生三光，心精意专内不倾，上合三焦下玉浆。</div>
+                <p class="verse-interpret"><strong>解读：</strong>肝气条达，则全身气血通畅，五脏六腑协调，跑步中就能做到心无旁骛、呼吸顺畅、动作稳定，这正是春季跑步「身心合一」的最高境界。</p>
+            </div>
+
+            <div class="verse-card">
+                <p><span class="verse-number">4</span><strong>闭塞三关握固停，含漱金醴吞玉英，遂至不饥三虫亡，心意常和致欣昌。</strong></p>
+                <div class="verse-text">闭塞三关握固停，含漱金醴吞玉英，遂至不饥三虫亡，心意常和致欣昌。</div>
+                <p class="verse-interpret"><strong>解读：</strong>这是中年跑者养生的核心准则，闭固精元、不妄耗散，漱咽津液、灌溉五脏，就能保持身体康健、情绪平和，训练状态稳定，实现「终身无伤跑」的长期目标。</p>
+            </div>
+
+            <div class="verse-card">
+                <p><span class="verse-number">5</span><strong>脾长一尺掩太仓，中部老君治明堂，厥字灵元名混康，治人百病消谷粮，长精益命赖君王。</strong></p>
+                <div class="verse-text">脾长一尺掩太仓，中部老君治明堂，厥字灵元名混康，治人百病消谷粮，长精益命赖君王。</div>
+                <p class="verse-interpret"><strong>解读：</strong>脾胃是生命的根本，是长精益命的核心，无论是跑步训练还是日常养生，都要以固护脾胃为核心，这是《黄庭经》贯穿四季的养生准则，也是中年跑者能一直跑下去的底层根基。</p>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<!-- Footer -->
+<footer>
+    <p>《黄庭经》春季养生专题 &middot; 顺木升发，固黄庭之本，养终身跑步之基</p>
+    <hr class="footer-divider">
+    <p>以道法自然之心，行无伤常跑之路</p>
+</footer>
+
+<script>
+(function() {
+    'use strict';
+    // 阅读进度条
+    var bar = document.getElementById('progressBar');
+    window.addEventListener('scroll', function() {
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        var scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.width = (scrollTop / scrollHeight * 100) + '%';
+    });
+})();
+</script>
+
+</body>
+</html>
