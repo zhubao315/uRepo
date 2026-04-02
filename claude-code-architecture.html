@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code 源码架构深度解读</title>
+    <style>
+        @font-face {
+            font-family: 'MiSans';
+            src: local('MiSans'), local('MiSans Normal'), local('MiSans Regular'),
+                 local('思源黑体'), local('Source Han Sans CN'), local('Noto Sans CJK SC'),
+                 local('PingFang SC'), local('Hiragino Sans GB');
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        :root {
+            --primary: #d97757;
+            --primary-light: #e88d72;
+            --primary-dark: #c46444;
+            --bg: #faf8f5;
+            --paper: #ffffff;
+            --ink: #2d2a26;
+            --ink-light: #5a5550;
+            --border: #e8e2dc;
+            --sand: #f5f0eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'MiSans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.85;
+            font-size: 17px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 70px 0 50px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        header .subtitle {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        header .meta {
+            margin-top: 18px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Nav */
+        nav {
+            background: var(--paper);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .container {
+            display: flex;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        nav a {
+            display: block;
+            padding: 14px 18px;
+            color: var(--ink-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+            background: rgba(217, 119, 87, 0.05);
+        }
+
+        /* Main */
+        main {
+            padding: 40px 0;
+        }
+
+        section {
+            background: var(--paper);
+            border-radius: 12px;
+            padding: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+        }
+
+        section::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 28px;
+            background: var(--primary);
+            border-radius: 2px;
+            margin-bottom: 18px;
+        }
+
+        h2 {
+            font-size: 1.45rem;
+            color: var(--ink);
+            margin-bottom: 22px;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            color: var(--ink);
+            margin: 24px 0 12px;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: var(--ink-light);
+        }
+
+        ul, ol {
+            margin: 16px 0 16px 22px;
+            color: var(--ink-light);
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        strong {
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        code {
+            background: #f5f0eb;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--primary-dark);
+        }
+
+        /* Abstract */
+        .abstract {
+            background: linear-gradient(135deg, #fdf6f0 0%, #faf3ec 100%);
+            padding: 26px 28px;
+            border-radius: 10px;
+            margin: 24px 0;
+        }
+
+        .abstract h3 {
+            color: var(--primary-dark);
+            margin-top: 0;
+        }
+
+        /* Diagram */
+        .diagram {
+            background: #faf8f5;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 24px;
+            margin: 26px 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .diagram svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .diagram-caption {
+            font-size: 0.85rem;
+            color: var(--ink-light);
+            margin-top: 14px;
+            font-style: italic;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 22px 0;
+            display: block;
+            overflow-x: auto;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            font-weight: 500;
+        }
+
+        tr:nth-child(even) {
+            background: #faf8f5;
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 18px;
+            margin: 24px 0;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #faf8f5 0%, #f5f0eb 100%);
+            border-radius: 10px;
+            padding: 22px;
+            border: 1px solid var(--border);
+        }
+
+        .card h4 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .card p {
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+
+        /* Principles */
+        .principles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 14px;
+        }
+
+        .principle {
+            background: #fefefe;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .principle-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .principle-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-right: 10px;
+        }
+
+        .principle-title {
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .principle p {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #3d3834 0%, #2d2a26 100%);
+            color: white;
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 36px;
+        }
+
+        footer p {
+            text-align: center;
+            opacity: 0.75;
+            margin-bottom: 6px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.55rem;
+            }
+            header .subtitle {
+                font-size: 0.95rem;
+            }
+            section {
+                padding: 26px 20px;
+            }
+            h2 {
+                font-size: 1.25rem;
+            }
+            .cards, .principles {
+                grid-template-columns: 1fr;
+            }
+            p {
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+            header {
+                padding: 50px 0 36px;
+            }
+            header h1 {
+                font-size: 1.4rem;
+            }
+            section {
+                padding: 22px 18px;
+            }
+            h2 {
+                font-size: 1.15rem;
+            }
+            h3 {
+                font-size: 1rem;
+            }
+            .diagram {
+                padding: 18px 14px;
+            }
+            nav a {
+                padding: 12px 14px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Claude Code 源码架构深度解读</h1>
+            <p class="subtitle">基于 4756 个源码文件的深度解析，揭示企业级 Agent 操作系统的工业化设计范式</p>
+            <p class="meta">4756 文件 · 50+ 模块 · 101 命令</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <a href="#abstract">摘要</a>
+            <a href="#positioning">定位</a>
+            <a href="#engine">引擎</a>
+            <a href="#tool">工具</a>
+            <a href="#agent">多 Agent</a>
+            <a href="#security">安全</a>
+            <a href="#ecosystem">生态</a>
+            <a href="#context">上下文</a>
+            <a href="#principles">原则</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="abstract">
+            <div class="abstract">
+                <h3>核心洞察</h3>
+                <p>Claude Code 并非简单的 CLI 工具，而是一套完整的 <strong>Agent 操作系统</strong>。其核心壁垒是工业化的系统工程设计——从主循环引擎、工具治理、多 Agent 调度，到安全防护、成本控制，形成了全链路的 Agent 运行框架。</p>
+            </div>
+
+            <div class="diagram">
+                <svg viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#d97757"/>
+                            <stop offset="100%" style="stop-color:#c46444"/>
+                        </linearGradient>
+                    </defs>
+                    <circle cx="350" cy="170" r="65" fill="url(#g1)"/>
+                    <text x="350" y="165" text-anchor="middle" fill="white" font-size="14">Agent</text>
+                    <text x="350" y="182" text-anchor="middle" fill="white" font-size="14">操作系统</text>
+                    <g fill="#fdf6f0" stroke="#d97757">
+                        <rect x="210" y="50" width="100" height="45" rx="5"/>
+                        <text x="260" y="75" text-anchor="middle" fill="#2d2a26" font-size="12">主循环引擎</text>
+                        <rect x="390" y="50" width="100" height="45" rx="5"/>
+                        <text x="440" y="75" text-anchor="middle" fill="#2d2a26" font-size="12">工具治理</text>
+                        <rect x="160" y="148" width="100" height="45" rx="5"/>
+                        <text x="210" y="173" text-anchor="middle" fill="#2d2a26" font-size="12">多 Agent 调度</text>
+                        <rect x="440" y="148" width="100" height="45" rx="5"/>
+                        <text x="490" y="173" text-anchor="middle" fill="#2d2a26" font-size="12">安全防护</text>
+                        <rect x="230" y="250" width="100" height="45" rx="5"/>
+                        <text x="280" y="275" text-anchor="middle" fill="#2d2a26" font-size="12">上下文经济</text>
+                        <rect x="370" y="250" width="100" height="45" rx="5"/>
+                        <text x="420" y="275" text-anchor="middle" fill="#2d2a26" font-size="12">产品化</text>
+                    </g>
+                    <g stroke="#f0d5c5" stroke-width="1.5" fill="none">
+                        <line x1="350" y1="105" x2="260" y2="95"/>
+                        <line x1="350" y1="105" x2="440" y2="95"/>
+                        <line x1="285" y1="170" x2="260" y2="170"/>
+                        <line x1="415" y1="170" x2="440" y2="170"/>
+                        <line x1="350" y1="235" x2="280" y2="250"/>
+                        <line x1="350" y1="235" x2="420" y2="250"/>
+                    </g>
+                </svg>
+                <p class="diagram-caption">图 1: Agent 操作系统核心架构</p>
+            </div>
+        </section>
+
+        <section id="positioning">
+            <h2>一、全局定位：从 CLI 到 Agent 操作系统</h2>
+            <h3>规模级差异</h3>
+            <ul>
+                <li>顶层模块 <strong>50+ 个</strong>，文件 <strong>4756 个</strong>，工具类 184 个</li>
+                <li>核心文件千行级：<code>main.tsx</code> 4683 行，<code>query.ts</code> 1729 行，<code>toolExecution.ts</code> 1745 行</li>
+            </ul>
+            <h3>平台化入口</h3>
+            <p>多入口架构服务 CLI、MCP、SDK、IDE 插件。<strong>fast-path 分发</strong> 对简单场景快速拦截，按需加载。</p>
+            <h3>命令系统</h3>
+            <p><code>src/commands/</code> 含 <strong>101 个内置命令</strong>，是用户交互与生态扩展的统一入口。</p>
+        </section>
+
+        <section id="engine">
+            <h2>二、核心引擎：主循环与 Prompt 编排</h2>
+            <p><code>query.ts</code> 的 1729 行状态机是核心流转中枢，单次循环 10 步：</p>
+            
+            <div class="diagram">
+                <svg viewBox="0 0 750 200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="gs" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#d97757"/>
+                            <stop offset="100%" style="stop-color:#c46444"/>
+                        </linearGradient>
+                    </defs>
+                    <g font-size="9" fill="white">
+                        <rect x="10" y="30" width="90" height="40" rx="4" fill="url(#gs)"/>
+                        <text x="55" y="52" text-anchor="middle">1. 压缩</text>
+                        <rect x="105" y="30" width="90" height="40" rx="4" fill="url(#gs)"/>
+                        <text x="150" y="52" text-anchor="middle">2. 预算检查</text>
+                        <rect x="200" y="30" width="90" height="40" rx="4" fill="url(#gs)"/>
+                        <text x="245" y="52" text-anchor="middle">3. API 调用</text>
+                        <rect x="295" y="30" width="90" height="40" rx="4" fill="url(#gs)"/>
+                        <text x="340" y="52" text-anchor="middle">4. 流式处理</text>
+                        <rect x="390" y="30" width="90" height="40" rx="4" fill="url(#gs)"/>
+                        <text x="435" y="52" text-anchor="middle">5. 错误恢复</text>
+                        <rect x="485" y="30" width="90" height="40" rx="4" fill="url(#gs)"/>
+                        <text x="530" y="52" text-anchor="middle">6. Hook 决策</text>
+                        <rect x="580" y="30" width="90" height="40" rx="4" fill="url(#gs)"/>
+                        <text x="625" y="52" text-anchor="middle">7. 二次校验</text>
+                        <rect x="105" y="85" width="90" height="40" rx="4" fill="url(#gs)"/>
+                        <text x="150" y="107" text-anchor="middle">8. 工具执行</text>
+                        <rect x="200" y="85" width="90" height="40" rx="4" fill="url(#gs)"/>
+                        <text x="245" y="107" text-anchor="middle">9. 上下文注入</text>
+                        <rect x="295" y="85" width="90" height="40" rx="4" fill="url(#gs)"/>
+                        <text x="340" y="107" text-anchor="middle">10. 循环触发</text>
+                    </g>
+                    <path d="M 385 105 L 420 105 L 420 150 L 50 150 L 50 50 L 10 50" stroke="#d97757" stroke-width="2" fill="none"/>
+                </svg>
+                <p class="diagram-caption">图 2: 主循环 10 步流程</p>
+            </div>
+
+            <h3>核心优化</h3>
+            <div class="cards">
+                <div class="card">
+                    <h4>流式工具执行</h4>
+                    <p>tool_use 块完成即执行，5 工具调用可缩短 50% 耗时。</p>
+                </div>
+                <div class="card">
+                    <h4>Prompt 缓存</h4>
+                    <p>动静分离设计，最大化 API 前缀缓存命中率。</p>
+                </div>
+            </div>
+
+            <h3>行为规范</h3>
+            <ul>
+                <li>禁止添加未要求功能、禁止过度抽象</li>
+                <li>先读代码再修改</li>
+                <li>禁止虚报结果</li>
+            </ul>
+        </section>
+
+        <section id="tool">
+            <h2>三、工具系统：全链路治理</h2>
+            <h3>Tool 接口</h3>
+            <ul>
+                <li><strong>输入校验</strong>：Zod + validateInput 双层</li>
+                <li><strong>安全属性</strong>：isReadOnly、isDestructive、isConcurrencySafe</li>
+                <li><strong>权限管控</strong>：checkPermissions</li>
+                <li><strong>UI 渲染</strong>：6+ render 方法</li>
+            </ul>
+            <p><strong>fail-closed 设计</strong>：未声明并发安全则串行，未声明只读则严格检查。</p>
+            <h3>14 步 Pipeline</h3>
+            <ol>
+                <li>工具匹配与 MCP 解析</li>
+                <li>双层输入校验</li>
+                <li>Bash 风险分类器</li>
+                <li>PreToolUse 钩子</li>
+                <li>权限解析与修正</li>
+                <li>最终权限决策</li>
+                <li>执行与埋点</li>
+                <li>后置钩子</li>
+                <li>结果封装</li>
+            </ol>
+        </section>
+
+        <section id="agent">
+            <h2>四、多 Agent 体系</h2>
+            <h3>专用 Agent</h3>
+            <table>
+                <thead>
+                    <tr><th>Agent</th><th>职责</th><th>约束</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Explore</strong></td><td>只读探索</td><td>禁止修改，Haiku 模型</td></tr>
+                    <tr><td><strong>Plan</strong></td><td>纯规划</td><td>不执行操作</td></tr>
+                    <tr><td><strong>Verification</strong></td><td>对抗验证</td><td>强制实机验证</td></tr>
+                    <tr><td><strong>General</strong></td><td>通用执行</td><td>全功能主体</td></tr>
+                </tbody>
+            </table>
+            <h3>调度管理</h3>
+            <ul>
+                <li><code>AgentTool.tsx</code> (1397 行) 标准化调度</li>
+                <li>fork 时继承上下文，复用缓存</li>
+                <li><code>runAgent.ts</code> (973 行) 全生命周期</li>
+            </ul>
+        </section>
+
+        <section id="security">
+            <h2>五、安全层：三层纵深防御</h2>
+            <h3>核心规则</h3>
+            <p><code>resolveHookPermissionDecision</code>：<strong>Hook allow 不绕过配置，deny 直接生效</strong>。</p>
+            
+            <div class="diagram">
+                <svg viewBox="0 0 600 160" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="30" y="25" width="540" height="35" rx="5" fill="#fef3c7" stroke="#f59e0b"/>
+                    <text x="55" y="47" fill="#92400e" font-size="12" font-weight="600">第一层：预判</text>
+                    <text x="280" y="47" fill="#92400e" font-size="11">BashTool 风险分类器</text>
+                    <rect x="30" y="70" width="540" height="35" rx="5" fill="#fed7aa" stroke="#ea580c"/>
+                    <text x="55" y="92" fill="#7c2d12" font-size="12" font-weight="600">第二层：控制</text>
+                    <text x="280" y="92" fill="#7c2d12" font-size="11">PreToolUse 钩子</text>
+                    <rect x="30" y="115" width="540" height="35" rx="5" fill="#fca5a5" stroke="#dc2626"/>
+                    <text x="55" y="137" fill="#7f1d1d" font-size="12" font-weight="600">第三层：决策</text>
+                    <text x="280" y="137" fill="#7f1d1d" font-size="11">权限终审</text>
+                </svg>
+                <p class="diagram-caption">图 3: 三层防护</p>
+            </div>
+        </section>
+
+        <section id="ecosystem">
+            <h2>六、生态体系</h2>
+            <div class="cards">
+                <div class="card">
+                    <h4>Skill</h4>
+                    <p>带 frontmatter 的 workflow，强制通过 SkillTool 执行。</p>
+                </div>
+                <div class="card">
+                    <h4>Plugin</h4>
+                    <p>深度扩展：修改 Prompt、权限、Hook、MCP。</p>
+                </div>
+                <div class="card">
+                    <h4>MCP</h4>
+                    <p>工具桥 + instructions 注入使用规则。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="context">
+            <h2>七、上下文经济学</h2>
+            <h3>四道压缩</h3>
+            <ol>
+                <li><strong>Snip</strong>：裁剪过长内容</li>
+                <li><strong>Micro</strong>：细粒度缓存压缩</li>
+                <li><strong>Collapse</strong>：折叠不活跃区</li>
+                <li><strong>Auto</strong>：阈值触发全量</li>
+            </ol>
+            <h3>Token 优化</h3>
+            <ul>
+                <li>预算系统追踪消耗</li>
+                <li>Skill/MCP 按需注入</li>
+                <li>流式输出时预取</li>
+                <li>大结果持久化</li>
+            </ul>
+        </section>
+
+        <section id="principles">
+            <h2>八、七大设计原则</h2>
+            <div class="principles">
+                <div class="principle">
+                    <div class="principle-header">
+                        <span class="principle-number">1</span>
+                        <span class="principle-title">不信任模型自觉</span>
+                    </div>
+                    <p>写成制度，不依赖临场发挥。</p>
+                </div>
+                <div class="principle">
+                    <div class="principle-header">
+                        <span class="principle-number">2</span>
+                        <span class="principle-title">角色拆分</span>
+                    </div>
+                    <p>实现者与验证者分离。</p>
+                </div>
+                <div class="principle">
+                    <div class="principle-header">
+                        <span class="principle-number">3</span>
+                        <span class="principle-title">工具治理</span>
+                    </div>
+                    <p>全链路校验、权限、风控。</p>
+                </div>
+                <div class="principle">
+                    <div class="principle-header">
+                        <span class="principle-number">4</span>
+                        <span class="principle-title">上下文是预算</span>
+                    </div>
+                    <p>能缓存的不重算。</p>
+                </div>
+                <div class="principle">
+                    <div class="principle-header">
+                        <span class="principle-number">5</span>
+                        <span class="principle-title">安全互不绕过</span>
+                    </div>
+                    <p>纵深防御，单点失效不崩塌。</p>
+                </div>
+                <div class="principle">
+                    <div class="principle-header">
+                        <span class="principle-number">6</span>
+                        <span class="principle-title">模型感知</span>
+                    </div>
+                    <p>让模型知道有什么能力。</p>
+                </div>
+                <div class="principle">
+                    <div class="principle-header">
+                        <span class="principle-number">7</span>
+                        <span class="principle-title">处理第二天</span>
+                    </div>
+                    <p>清理、恢复、兜底长期运行问题。</p>
+                </div>
+            </div>
+
+            <div class="abstract" style="margin-top:28px;">
+                <h3>行业启示</h3>
+                <p>Agent 竞争进入 <strong>系统工程时代</strong>。构建稳定、安全、低成本、可扩展的框架，是从 Demo 走向商用的核心。</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Claude Code 源码架构深度解读</p>
+            <p>基于 4756 个源码文件</p>
+        </div>
+    </footer>
+</body>
+</html>
